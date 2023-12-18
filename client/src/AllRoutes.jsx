@@ -13,11 +13,15 @@ import UserProfile from "./Pages/UserProfile/UserProfile";
 const AllRoutes = ({ slideIn, handleSlideIn }) => {
   return (
     <Routes>
+
+      {/* //component is defining a route for the root URL ("/").When this route is matched, it renders the <Home> component */}
       <Route
         path="/"
         element={<Home slideIn={slideIn} handleSlideIn={handleSlideIn} />}
       />
-      <Route path="/Auth" element={<Auth />} />
+      {/* when the URL is "/Auth", the Auth  component will be rendered. */}
+      <Route path="/Auth" element={<Auth />} /> 
+      {/* When the URL matches "/AskQuestion", the component specified in the element prop will be rendered.      */}
       <Route path="/AskQuestion" element={<AskQuestion />} />
       <Route
         path="/Questions"

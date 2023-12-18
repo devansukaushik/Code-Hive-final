@@ -1,20 +1,22 @@
+//code for asking question page with tittle , body , tags.
+
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import "./AskQuestion.css";
+import "./AskQuestion.css";   //component relies on an external CSS file for styling, as indicated by the import statement ("./AskQuestion.css").
 import { askQuestion } from "../../actions/question";
 
-const AskQuestion = () => {
+const AskQuestion = () => {      //component uses the useState hook to manage state for questionTitle, questionBody, and questionTags.
   const [questionTitle, setQuestionTitle] = useState("");
   const [questionBody, setQuestionBody] = useState("");
   const [questionTags, setQuestionTags] = useState("");
 
-  const dispatch = useDispatch();
-  const User = useSelector((state) => state.currentUserReducer);
+  const dispatch = useDispatch();   //dispatch is used to dispatch actions,
+  const User = useSelector((state) => state.currentUserReducer);    //useDispatch and useSelector to interact with the Redux store
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => {    //handleSubmit function is triggered when the form is submitted .It checks if the user is logged in and if all necessary fields are filled before dispatching the askQuestion action with the relevant data.
     e.preventDefault();
     if (User) {
       if (questionTitle && questionBody && questionTags) {
@@ -33,7 +35,7 @@ const AskQuestion = () => {
     } else alert("Login to ask question");
   };
 
-  const handleEnter = (e) => {
+  const handleEnter = (e) => {   //handleEnter function is called when the Enter key is pressed in the textarea, and it appends a newline character to the questionBody.
     if (e.key === "Enter") {
       setQuestionBody(questionBody + "\n");
     }
@@ -101,3 +103,8 @@ const AskQuestion = () => {
 };
 
 export default AskQuestion;
+//The component returns JSX, defining the structure of the AskQuestion component. It includes a form with input fields for title, body, and tags.
+
+
+
+//Overall, this component represents a form for users to ask questions. It interacts with Redux to manage user state and uses the askQuestion action to handle the submission of questions.

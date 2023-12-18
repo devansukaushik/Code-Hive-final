@@ -1,5 +1,5 @@
 import React from "react";
-
+//Avatar for the first letter of users name , it will appaer after login and also in profile section
 const Avatar = ({
   children,
   backgroundColor,
