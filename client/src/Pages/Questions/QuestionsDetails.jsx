@@ -1,30 +1,37 @@
 import React, { useState } from "react";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";  //Redux hooks (useSelector, useDispatch) are used to interact with the Redux store.
 import moment from "moment";
-import copy from "copy-to-clipboard";
+import copy from "copy-to-clipboard";   //External libraries like moment and copy-to-clipboard are imported.
 
 import upvote from "../../assets/sort-up.svg";
 import downvote from "../../assets/sort-down.svg";
-import "./Questions.css";
+import "./Questions.css";    //Images (upvote and downvote) and a CSS file (Questions.css) are imported.
 import Avatar from "../../components/Avatar/Avatar";
-import DisplayAnswer from "./DisplayAnswer";
-import {
+import DisplayAnswer from "./DisplayAnswer";     //The Avatar and DisplayAnswer components are also imported.
+
+
+import {       //Action functions (postAnswer, deleteQuestion, voteQuestion) from the question Redux actions are imported.
   postAnswer,
   deleteQuestion,
   voteQuestion,
 } from "../../actions/question";
 
-const QuestionsDetails = () => {
+const QuestionsDetails = () => {    //The functional component QuestionsDetails is defined.
   const { id } = useParams();
   const questionsList = useSelector((state) => state.questionsReducer);
+  //The questionsList, Answer, Navigate, dispatch, User, location, and url variables are declared.
 
   const [Answer, setAnswer] = useState("");
   const Navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();        //React hooks (useParams, useState, useNavigate, useSelector, useDispatch, useLocation) are used to manage state and retrieve parameters from the URL.
+
   const User = useSelector((state) => state.currentUserReducer);
   const location = useLocation();
   const url = "http://localhost:3000";
+
+
+  //Event handling functions for posting answers, sharing, deleting questions, upvoting, and downvoting are defined.
 
   const handlePostAns = (e, answerLength) => {
     e.preventDefault();
@@ -77,14 +84,14 @@ const QuestionsDetails = () => {
 
   return (
     <div className="question-details-page">
-      {questionsList.data === null ? (
+      {questionsList.data === null ? (     //If questionsList.data is null, display a loading message.
         <h1>Loading...</h1>
       ) : (
         <>
           {questionsList.data
             .filter((question) => question._id === id)
-            .map((question) => (
-              <div key={question._id}>
+            .map((question) => (      //Map through questions, filter by the provided id, and render the details if found.
+              <div key={question._id}>    
                 <section className="question-details-container">
                   <h1>{question.questionTitle}</h1>
                   <div className="question-details-container-2">
@@ -96,8 +103,8 @@ const QuestionsDetails = () => {
                         className="votes-icon"
                         onClick={handleUpVote}
                       />
-                      <p>{question.upVote.length - question.downVote.length}</p>
-                      <img
+                      <p>{question.upVote.length - question.downVote.length}</p>   
+                      <img       //Display question title, voting buttons (upvote and downvote), vote count, question body, tags, and user actions.
                         src={downvote}
                         alt=""
                         width="18"
@@ -144,8 +151,9 @@ const QuestionsDetails = () => {
                       </div>
                     </div>
                   </div>
-                </section>
-                {question.noOfAnswers !== 0 && (
+                </section>  
+                
+                {question.noOfAnswers !== 0 && (   //If there are answers, display the count and use the DisplayAnswer component to render them.
                   <section>
                     <h3>{question.noOfAnswers} Answers</h3>
                     <DisplayAnswer
@@ -154,10 +162,10 @@ const QuestionsDetails = () => {
                       handleShare={handleShare}
                     />
                   </section>
-                )}
-                <section className="post-ans-container">
+                )}       
+                <section className="post-ans-container">   
                   <h3>Your Answer</h3>
-                  <form
+                  <form     //Form to post a new answer, including a textarea for the answer, and a button to submit.
                     onSubmit={(e) => {
                       handlePostAns(e, question.answer.length);
                     }}
@@ -176,9 +184,9 @@ const QuestionsDetails = () => {
                       className="post-ans-btn"
                       value="Post Your Answer"
                     />
-                  </form>
-                  <p>
-                    Browse other Question tagged
+                  </form>    
+                  <p>   
+                    Browse other Question tagged    
                     {question.questionTags.map((tag) => (
                       <Link to="/Tags" key={tag} className="ans-tags">
                         {" "}
@@ -189,14 +197,14 @@ const QuestionsDetails = () => {
                     <Link
                       to="/AskQuestion"
                       style={{ textDecoration: "none", color: "#009dff" }}
-                    >
+                    >   
                       {" "}
-                      ask your own question.
+                      ask your own question.     
                     </Link>
                   </p>
-                </section>
-              </div>
-            ))}
+                </section>  
+              </div>         //Display links to browse questions with the same tags or ask a new question.
+            ))}   
         </>
       )}
     </div>
@@ -204,3 +212,6 @@ const QuestionsDetails = () => {
 };
 
 export default QuestionsDetails;
+
+
+//This code represents a React component for displaying details of a single question, including voting, answers, and the ability to post new answers. It integrates with Redux for state management and React Router for navigation. Additionally, it uses various UI components and styling to create a comprehensive Q&A page.
