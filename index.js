@@ -1,3 +1,4 @@
+// Importing required modules
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -10,17 +11,26 @@ import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
+
+// Getting current file and directory paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+
+// Importing route handlers
 import userRoutes from "./routes/users.js";
 import questionRoutes from "./routes/Questions.js";
 import answerRoutes from "./routes/Answers.js";
 // import connectDB from "./connectMongoDb.js";
 // require("./conn");
+
 dotenv.config();
 // connectDB();
+
+// Creating an Express application
 const app = express();
+
+// Middlewares for parsing JSON and handling CORS
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
@@ -29,10 +39,12 @@ app.use(cors());
 //     res.send("This is a stack overflow clone API")
 // })
 
+// Setting up routes for different API endpoints
 app.use("/user", userRoutes);
 app.use("/questions", questionRoutes);
 app.use("/answer", answerRoutes);
 
+// Connecting to MongoDB database
 const DATABASE_URL = process.env.CONNECTION_URL
 
 
@@ -44,6 +56,7 @@ mongoose.connect(DATABASE_URL ,
     console.log("error in connection" + e);
 })
 
+// Serving static files in production and redirecting other routes to the client-side app
 if ("production" == "production") {
    
  
@@ -54,6 +67,7 @@ if ("production" == "production") {
 }
 
 
+// Configuring another instance of middleware for url-encoded data
 app.use(express.urlencoded({ extended: false }));
 const PORT = process.env.PORT || 5000;
 
